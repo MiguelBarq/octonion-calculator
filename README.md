@@ -18,7 +18,7 @@ Initialize an Octonian as follows:
 
 ``test = Octonian(NUM)``
 
-where NUM is a tuple of the form (a_0, a_1, a_2, a_3, a_4, a_5, a_6, a_7) and a_i are numbers (integers, floats, or Decimals). Zeroes must *not* be omitted. For example:
+where NUM is a tuple of the form (a_0, a_1, a_2, a_3, a_4, a_5, a_6, a_7) and a_i are rational numbers (integers, floats, or Decimals): the coefficients for the basis elements. Zeroes must *not* be omitted. For example:
 
 Acceptable: (1, 2, -97.151516156498794, 0, 0, 0, 0, 0)
 
