@@ -1,11 +1,6 @@
 from math import sqrt
 from numpy import array, random
 from decimal import Decimal
-""""
-NOTE: CURRENTLY REQUIRES NEGATIVE COEFFICIENTS TO BE ADDDED
-Do: e_1 + -3e_2 + 2e_3
-Do not: e_1 - 3e_2 + 2e_3
-"""
 
 
 class Octonian:
