@@ -18,11 +18,11 @@ Initialize an Octonian as follows:
 
 ``test = Octonian(NUM)``
 
-where NUM is a string of the form "a_1e_1 + a_2e_2 + a_3e_3 + a_4e_4 + a_5e_5 + a_6e_6 + a_7e_7" and a_i are numbers (integers or decimals as a substring, do *not* use scientific notation). Whitespace may be omitted, the order of the terms in not strict, terms with a_i = 0 may be omitted, and if a_i == 1 the coefficient may also be omitted. The pluses *must* be there, even if a_i is negative. For example:
+where NUM is a tuple of the form (a_0, a_1, a_2, a_3, a_4, a_5, a_6, a_7) and a_i are numbers (integers, floats, or Decimals). Zeroes must *not* be omitted. For example:
 
-Acceptable: "e_0 + 12e_7 + -97.151516156498794e_2"
+Acceptable: (1, 2, -97.151516156498794, 0, 0, 0, 0, 0)
 
-Unacceptable "e_0 + 12e_7 - 97.151516156498794e_2"
+Unacceptable: (1, 2, -97.151516156498794)
 
 ---
 
@@ -30,7 +30,7 @@ Addition, subtraction, multiplication, and division overload the standard operat
 
 ---
 
-Call the pseudo-random octonion generator by ``random_octonian()`` or ``random_octonian_int()``. The prior returns an octonion as a string of the appropriate format with pseudo-random float coefficients in the interval [0,1). The latter with integers between -100 and 100. For usage with initialization, one would input ``test = Octonian(random_octonian_int())``, for example.
+Call the pseudo-random octonion generator by ``random_octonian()`` or ``random_octonian_int()``. The prior returns an octonion as a tuple of the appropriate format with pseudo-random float coefficients in the interval [0,1). The latter with integers between -100 and 100. For usage with initialization, one would input ``test = Octonian(random_octonian_int())``, for example.
 
 # Miscellaneous
 Yes, I know that I have misspelled "octonion" throughout the file, including in the name of the file. I don't know what to say other than I must have read it like this somewhere and now I kind of like it.
