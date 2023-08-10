@@ -21,14 +21,14 @@ class Octonian:
         """
         # The main data structure
         self.number = {
-            'e_0': 0,
-            'e_1': 0,
-            'e_2': 0,
-            'e_3': 0,
-            'e_4': 0,
-            'e_5': 0,
-            'e_6': 0,
-            'e_7': 0
+            "e_0": 0,
+            "e_1": 0,
+            "e_2": 0,
+            "e_3": 0,
+            "e_4": 0,
+            "e_5": 0,
+            "e_6": 0,
+            "e_7": 0,
         }
         self.norm = 0
 
@@ -41,7 +41,7 @@ class Octonian:
             self.number["e_" + str(i)] = num[i]
 
         # Creating norm
-        self.norm = sqrt((self.__mul__(self.conj())).number.get('e_0'))
+        self.norm = sqrt((self.__mul__(self.conj())).number.get("e_0"))
         return
 
     def __str__(self):
@@ -85,7 +85,8 @@ class Octonian:
         output = Octonian()
         for basis in output.number.keys():
             output.number.update(
-                {basis: self.number.get(basis) + other.number.get(basis)})
+                {basis: self.number.get(basis) + other.number.get(basis)}
+            )
         return output
 
     def __sub__(self, other):
@@ -96,7 +97,8 @@ class Octonian:
         output = Octonian()
         for basis in output.number.keys():
             output.number.update(
-                {basis: self.number.get(basis) - other.number.get(basis)})
+                {basis: self.number.get(basis) - other.number.get(basis)}
+            )
         return output
 
     def __mul__(self, other):
@@ -104,17 +106,21 @@ class Octonian:
         Multiplies two octonian instances, self and other.
         Returns resulting octonian object.
         """
+
         # Helper function, multipication of basis elements. String input.
         def basis_mult(e_i, e_j):
-            basis_mult_lookup = array([
-                ["e_0", "e_1", "e_2", "e_3", "e_4", "e_5", "e_6", "e_7"],
-                ["e_1", "-e_0", "e_3", "-e_2", "e_5", "-e_4", "-e_7", "e_6"],
-                ["e_2", "-e_3", "-e_0", "e_1", "e_6", "e_7", "-e_4", "-e_5"],
-                ["e_3", "e_2", "-e_1", "-e_0", "e_7", "-e_6", "e_5", "e_4"],
-                ["e_4", "-e_5", "-e_6", "-e_7", "-e_0", "e_1", "e_2", "e_3"],
-                ["e_5", "e_4", "-e_7", "e_6", "-e_1", "-e_0", "-e_3", "e_2"],
-                ["e_6", "e_7", "e_4", "-e_5", "-e_2", "e_3", "-e_0", "-e_1"],
-                ["e_7", "-e_6", "e_5", "e_4", "-e_3", "-e_2", "e_1", "-e_0"]])
+            basis_mult_lookup = array(
+                [
+                    ["e_0", "e_1", "e_2", "e_3", "e_4", "e_5", "e_6", "e_7"],
+                    ["e_1", "-e_0", "e_3", "-e_2", "e_5", "-e_4", "-e_7", "e_6"],
+                    ["e_2", "-e_3", "-e_0", "e_1", "e_6", "e_7", "-e_4", "-e_5"],
+                    ["e_3", "e_2", "-e_1", "-e_0", "e_7", "-e_6", "e_5", "e_4"],
+                    ["e_4", "-e_5", "-e_6", "-e_7", "-e_0", "e_1", "e_2", "e_3"],
+                    ["e_5", "e_4", "-e_7", "e_6", "-e_1", "-e_0", "-e_3", "e_2"],
+                    ["e_6", "e_7", "e_4", "-e_5", "-e_2", "e_3", "-e_0", "-e_1"],
+                    ["e_7", "-e_6", "e_5", "e_4", "-e_3", "-e_2", "e_1", "-e_0"],
+                ]
+            )
             return basis_mult_lookup[int(e_i[-1])][int(e_j[-1])]
 
         # Computing the product
@@ -122,7 +128,7 @@ class Octonian:
         for e_i, a in self.number.items():
             for e_j, b in other.number.items():
                 # Finding product of basis elements
-                if basis_mult(e_i, e_j)[0] == '-':
+                if basis_mult(e_i, e_j)[0] == "-":
                     curr_basis = (basis_mult(e_i, e_j)[1::], -1)
                 else:
                     curr_basis = (basis_mult(e_i, e_j), 1)
@@ -130,7 +136,8 @@ class Octonian:
                 curr_value = output.number.get(curr_basis[0])
                 # Adding product of a and b to current value
                 output.number.update(
-                    {curr_basis[0]: curr_value + curr_basis[1] * a * b})
+                    {curr_basis[0]: curr_value + curr_basis[1] * a * b}
+                )
         return output
 
     def __truediv__(self, other):
@@ -151,7 +158,7 @@ class Octonian:
         output = Octonian()
         for basis, coef in self.number.items():
             # Skipping initial term
-            if basis == 'e_0':
+            if basis == "e_0":
                 output.number.update({basis: coef})
             else:
                 output.number.update({basis: coef * -1})
@@ -162,7 +169,8 @@ class Octonian:
         Returns inverse of self as octonian object.
         """
         return self.conj().__mul__(
-            Octonian((1 / (self.norm)**2, 0, 0, 0, 0, 0, 0, 0)))
+            Octonian((1 / (self.norm) ** 2, 0, 0, 0, 0, 0, 0, 0))
+        )
 
 
 # Function for generating random octonians with floats, useful for testing.
