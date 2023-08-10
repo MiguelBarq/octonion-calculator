@@ -9,23 +9,22 @@ Do not: e_1 - 3e_2 + 2e_3
 
 
 class Octonian:
-    # Expects number written in summation form, sanitized. For example: 3e_1 + 5e_2
-    def __init__(self, num='0'):
+    def __init__(self, num=(0, 0, 0, 0, 0, 0, 0, 0)):
         """
         Parameters
         ----------
-        num : STR, optional
+        num : TUPLE, optional
             DESCRIPTION. Flags if the Octonian is left blank, intializes object
             as the number 0 if left blank. Otherwise, expected input is an
-            octonian of form "ae_0 + be_1 + ... + ge_7" where a through g are
-            numbers (floats or integers).
+            octonian of form (a, b, c, ..., g) where a through g are the
+            ordered coefficients for the basis (floats or integers).
 
         Returns
         -------
         None.
 
         """
-        # Extracting the data from input string
+        # The main data structure
         self.number = {
             'e_0': 0,
             'e_1': 0,
@@ -37,29 +36,17 @@ class Octonian:
             'e_7': 0
         }
         self.norm = 0
-        # Checking if number is 0
-        if num == '0':
+
+        # Checking for 0
+        if num == (0, 0, 0, 0, 0, 0, 0, 0):
             return
-        # Turning expected input into dictionary
-        num_split = [term.strip() for term in num.split('+')]
 
-        # Turning into tuple pairs (coefficient, basis element)
-        num_tuple = []
-        for term in num_split:
-            # Dealing with missing leading coefficient (e_i = 1e_i)
-            if term[0] == 'e':
-                num_tuple.append((1, term))
-            else:
-                num_tuple.append(
-                    (float(term[:term.index('e')]), term[term.index('e'):]))
-
-        # Inserting to self.number
-        for pair in num_tuple:
-            curr = self.number.get(pair[1])
-            self.number.update({pair[1]: curr + float(pair[0])})
+        # Inputting input into the dictionary
+        for i in range(8):
+            self.number["e_" + str(i)] = num[i]
 
         # Creating norm
-        self.norm = Decimal(sqrt(self.__mul__(self.conj()).number.get('e_0')))
+        self.norm = sqrt((self.__mul__(self.conj())).number.get('e_0'))
         return
 
     def __str__(self):
@@ -74,15 +61,18 @@ class Octonian:
                 continue
 
             hits += 1
-            # If not the first non-zero term, insert +
+            # If not the first non-zero term, insert + or -
             if hits != 1:
-                output += " + "
+                if coef < 0:
+                    output += " - "
+                else:
+                    output += " + "
 
             # Removing '.0' from coefficients, if applicable
-            if coef.is_integer():
-                output += str(int(coef))
+            if float(coef).is_integer():
+                output += str(int(abs(coef)))
             else:
-                output += str(coef)
+                output += str(Decimal(abs(coef)))
 
             output += basis
         # endfor
@@ -177,24 +167,14 @@ class Octonian:
         Returns inverse of self as octonian object.
         """
         return self.conj().__mul__(
-            Octonian(str(Decimal(1 / Decimal((self.norm)**2))) + 'e_0'))
+            Octonian((1 / (self.norm)**2, 0, 0, 0, 0, 0, 0, 0)))
 
 
 # Function for generating random octonians with floats, useful for testing.
 def random_octonian():
-    values = random.rand(1, 8)
-    # Making the string
-    output = str(values[0][0]) + "e_0"
-    for i in range(1, 8):
-        output += ' + ' + str(values[0][i]) + 'e_' + str(i)
-    return output
+    return tuple(random.rand(1, 8)[0])
 
 
 # Function for generating random octonians with integers, useful for testing.
 def random_octonian_int():
-    values = random.randint(-100, 100, 8)
-    # Making the string
-    output = str(values[0]) + "e_0"
-    for i in range(1, 8):
-        output += ' + ' + str(values[i]) + 'e_' + str(i)
-    return output
+    return tuple(random.randint(-100, 100, 8))
