@@ -14,7 +14,7 @@ Run the file in a python console. Don't forget to ``print()`` the results of you
 
 ---
 
-Initialize an Octonion as follows:
+Initialize an Octonian as follows:
 
 ``test = Octonian(NUM)``
 
